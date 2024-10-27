@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
-    "build:server": "export $(cat .env.runtime) && astro build",
+    "build": "astro check && astro build --remote",
+    "build:server": "export $(cat .env.runtime) && npm run build",
+    "db:push": "astro db push --remote",
     "preview": "astro preview",
     "astro": "astro"
   },
