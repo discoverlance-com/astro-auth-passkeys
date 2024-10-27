@@ -5,7 +5,7 @@ interface Props {
 
 const { title } = Astro.props;
 
-import { ReactPage } from "@/components/react/page";
+import { ArrowRight, Key, Lock, Rocket } from "lucide-react";
 import "@/styles/base.css";
 import { ViewTransitions } from "astro:transitions";
 ---
@@ -24,10 +24,21 @@ import { ViewTransitions } from "astro:transitions";
     <title>{title}</title>
     <ViewTransitions transition:animate="slide" />
   </head>
-  <body class="antialiased relative min-h-svh scroll-smooth">
-    <main>
+  <body class="antialiased relative scroll-smooth">
+    <div class="flex flex-col min-h-svh">
+      <header class="px-4 lg:px-6 h-14 flex items-center">
+        <a href="/" class="flex items-center justify-center">
+          <Rocket size="24" />
+          <span class="ml-2 text-lg font-semibold">Astro Passkey Auth</span>
+        </a>
+      </header>
       <slot />
-    </main>
+      <footer class="py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
+        <p class="text-xs text-gray-500 dark:text-gray-400 text-center">
+          © 2024 Astro Passkey Auth. All rights reserved.
+        </p>
+      </footer>
+    </div>
   </body>
 </html>
 
