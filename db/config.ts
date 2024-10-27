@@ -12,9 +12,8 @@ const sessions = defineTable({
     id: column.text({ primaryKey: true }),
     user_id: column.number({
       references: () => users.columns.id,
-      name: "userId",
     }),
-    expires_at: column.date({ name: "expires" }),
+    expires_at: column.date(),
   },
   indexes: [{ on: ["user_id"] }],
 });

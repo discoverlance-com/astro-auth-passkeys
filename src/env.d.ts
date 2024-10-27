@@ -9,3 +9,10 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+declare namespace App {
+  interface Locals {
+    session: import("./lib/auth/session").Session | null;
+    user: import("./lib/auth/session").User | null;
+  }
+}
