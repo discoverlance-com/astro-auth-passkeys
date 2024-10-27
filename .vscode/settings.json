@@ -1,0 +1,11 @@
+{
+  "sqltools.useNodeRuntime": true,
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "astro-passkeys-db",
+      "database": "${workspaceFolder:astro-auth-passkeys}/.astro/content.db"
+    }
+  ]
+}
