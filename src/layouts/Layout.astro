@@ -37,9 +37,24 @@ import { ModeToggle } from "@/components/react/mode-toggle";
         <ModeToggle client:visible />
       </header>
       <slot />
-      <footer class="py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
+      <footer
+        class="py-6 w-full shrink-0 items-center px-4 md:px-6 border-t space-y-2"
+      >
         <p class="text-xs text-gray-500 dark:text-gray-400 text-center">
           © 2024 Astro Passkey Auth. All rights reserved.
+        </p>
+        <p class="text-xs text-gray-500 dark:text-gray-400 text-center">
+          Built with <a
+            href="https://astro.build"
+            target="_blank"
+            class="underline"
+            rel="noopener noreferrer">Astro</a
+          > with ❤ by <a
+            href="https://discoverlance.com"
+            target="_blank"
+            class="underline"
+            rel="noopener noreferrer">Lance Armah-Abraham</a
+          >
         </p>
       </footer>
     </div>
