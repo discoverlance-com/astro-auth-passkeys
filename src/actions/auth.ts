@@ -3,6 +3,37 @@ import { db, eq, isDbError, users } from "astro:db";
 import { z } from "astro:schema";
 
 export const auth = {
+  loginWithEmail: defineAction({
+    accept: "form",
+    input: z.object({
+      email: z
+        .string({
+          required_error: "Email is required",
+          invalid_type_error: "Email must be a text",
+        })
+        .email("Email must be a valid email address"),
+    }),
+    handler: async (input, context) => {
+      // check if user exists
+      const user = await db
+        .select()
+        .from(users)
+        .where(eq(users.email, input.email));
+
+      if (user.length < 1) {
+        throw new ActionError({
+          code: "BAD_REQUEST",
+          message: "Invalid or wrong credentials.",
+        });
+      }
+
+      const found = user[0];
+
+      // Send user a magic link to login
+
+      // redirect to login
+    },
+  }),
   register: defineAction({
     accept: "form",
     input: z.object({
