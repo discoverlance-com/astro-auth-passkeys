@@ -12,12 +12,33 @@ import {
 } from "@/components/react/ui/card";
 import { Input } from "@/components/react/ui/input";
 import { Label } from "@/components/react/ui/label";
+import { actions } from "astro:actions";
+import { isInputError } from "astro:actions";
+import { CircleX } from "lucide-react";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/react/ui/alert";
+
+const result = Astro.getActionResult(actions.auth.loginWithEmail);
+
+const inputErrors = isInputError(result?.error) ? result.error.fields : {};
 ---
 
 <Layout title="Login">
   <main class="flex-1">
     <section class="w-full py-12 md:py-24 lg:py-32 xl:py-48">
       <div class="container px-4 md:px-6">
+        {
+          result?.error && (
+            <Alert className="mx-auto max-w-sm mb-4">
+              <CircleX className="h-4 w-4" />
+              <AlertTitle>{result.error.code}!</AlertTitle>
+              <AlertDescription>{result.error.message}</AlertDescription>
+            </Alert>
+          )
+        }
         <Card className="mx-auto max-w-sm">
           <CardHeader>
             <CardTitle className="text-2xl" transition:name="auth-header"
@@ -28,29 +49,56 @@ import { Label } from "@/components/react/ui/label";
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div class="grid gap-4">
-              <div class="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" name="email" required />
-              </div>
+            <form method="POST" action={"/login" + actions.auth.loginWithEmail}>
+              <div class="grid gap-4">
+                <div class="grid gap-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    name="email"
+                    required
+                    transition:persist
+                    client:visible
+                    aria-describedby="email-error"
+                    aria-invalid={Boolean(inputErrors.email)}
+                  />
+                  <p
+                    id="email-error"
+                    role="alert"
+                    class:list={[
+                      "text-[0.8rem] font-medium text-muted-foreground flex items-center gap-2",
+                      {
+                        block: Boolean(inputErrors.email),
+                      },
+                      {
+                        hidden: !Boolean(inputErrors.email),
+                      },
+                    ]}
+                  >
+                    <CircleX size="14" className="text-destructive" />
+                    {inputErrors.email?.join(", ")}
+                  </p>
+                </div>
 
-              <Button type="submit" className="w-full">
-                Login with Email
-              </Button>
-              <a
-                href="/login/passkey"
-                class={buttonVariants({
-                  className: "w-full",
-                  variant: "outline",
-                })}
-              >
-                Login with Passkey
-              </a>
-            </div>
-            <div class="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <a href="/register" class="underline"> Sign up </a>
-            </div>
+                <Button type="submit" className="w-full">
+                  Login with Email
+                </Button>
+                <a
+                  href="/login/passkey"
+                  class={buttonVariants({
+                    className: "w-full",
+                    variant: "outline",
+                  })}
+                >
+                  Login with Passkey
+                </a>
+              </div>
+              <div class="mt-4 text-center text-sm">
+                Don&apos;t have an account?{" "}
+                <a href="/register" class="underline"> Sign up </a>
+              </div>
+            </form>
           </CardContent>
         </Card>
       </div>

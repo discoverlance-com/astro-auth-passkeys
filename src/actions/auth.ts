@@ -20,7 +20,7 @@ export const auth = {
         .from(users)
         .where(eq(users.email, input.email));
 
-      if (user.length < 1) {
+      if (user.length !== 1) {
         throw new ActionError({
           code: "BAD_REQUEST",
           message: "Invalid or wrong credentials.",
@@ -31,7 +31,16 @@ export const auth = {
 
       // Send user a magic link to login
 
-      // redirect to login
+      // success
+      context.cookies.set(
+        "flash",
+        {
+          message: "Welcome",
+          type: "info",
+        },
+        { maxAge: 10 }
+      );
+      return { login: true, user: found };
     },
   }),
   register: defineAction({
@@ -71,6 +80,15 @@ export const auth = {
           });
         }
       }
+
+      context.cookies.set(
+        "flash",
+        {
+          message: "Proceed to login.",
+          type: "info",
+        },
+        { maxAge: 10 }
+      );
       return { register: true };
     },
   }),

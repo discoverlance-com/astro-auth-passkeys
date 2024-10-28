@@ -5,9 +5,12 @@ interface Props {
 
 const { title } = Astro.props;
 
+import { FlashToast } from "@/components/react/flash-toast";
 import { ReactPage } from "@/components/react/page";
 import "@/styles/base.css";
 import { ViewTransitions } from "astro:transitions";
+
+const flashMessage = Astro.cookies.get("flash")?.json();
 ---
 
 <!doctype html>
@@ -25,5 +28,11 @@ import { ViewTransitions } from "astro:transitions";
     <ReactPage client:load>
       <slot />
     </ReactPage>
+
+    <FlashToast
+      client:load
+      message={flashMessage?.message}
+      type={flashMessage?.type}
+    />
   </body>
 </html>

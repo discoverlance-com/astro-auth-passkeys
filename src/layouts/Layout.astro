@@ -5,13 +5,15 @@ interface Props {
 
 const { title } = Astro.props;
 
-import { ArrowRight, Key, Lock, Rocket } from "lucide-react";
+import { Rocket } from "lucide-react";
 import "@/styles/base.css";
 import { ViewTransitions } from "astro:transitions";
 import { ModeToggle } from "@/components/react/mode-toggle";
+import { FlashToast } from "@/components/react/flash-toast";
+
+const flashMessage = Astro.cookies.get("flash")?.json();
 ---
 
-<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -57,6 +59,12 @@ import { ModeToggle } from "@/components/react/mode-toggle";
           >
         </p>
       </footer>
+
+      <FlashToast
+        client:load
+        message={flashMessage?.message}
+        type={flashMessage?.type}
+      />
     </div>
   </body>
 </html>
