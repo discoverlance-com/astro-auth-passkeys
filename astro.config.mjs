@@ -12,15 +12,21 @@ import { shield } from "@kindspells/astro-shield";
 const rootDir = new URL(".", import.meta.url).pathname;
 const modulePath = resolve(rootDir, "src", "generated", "sriHashes.mjs");
 
+const port = parseInt(process.env.PORT || "4321");
+
 // https://astro.build/config
 export default defineConfig({
-  site: "https://astro-auth-passkeys.discoverlance.com",
-  prefetch: true,
+  site: "https://astro-auth-passkeys.vercel.app",
 
   output: "server",
 
   security: {
     checkOrigin: true,
+  },
+
+  server: {
+    host: "0.0.0.0",
+    port: port,
   },
 
   adapter: node({
