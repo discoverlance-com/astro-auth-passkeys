@@ -1,6 +1,8 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import { Button } from "@/components/react/ui/button";
+export const prerender = false;
+
+import Layout from "@/layouts/Layout.astro";
+import { Button, buttonVariants } from "@/components/react/ui/button";
 import {
   Card,
   CardContent,
@@ -29,16 +31,21 @@ import { Label } from "@/components/react/ui/label";
             <div class="grid gap-4">
               <div class="grid gap-2">
                 <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                />
+                <Input id="email" type="email" name="email" required />
               </div>
+
               <Button type="submit" className="w-full">
                 Login with Email
               </Button>
+              <a
+                href="/login/passkey"
+                class={buttonVariants({
+                  className: "w-full",
+                  variant: "outline",
+                })}
+              >
+                Login with Passkey
+              </a>
             </div>
             <div class="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
